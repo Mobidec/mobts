@@ -1,0 +1,25 @@
+# Python cache files
+__pycache__/
+*.pyc
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+env/
+
+# Build files (when packaging)
+build/
+dist/
+*.egg-info/
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# Local-only test outputs
+tests/local/
+
+# Data
+data/

@@ -1,0 +1,17 @@
+[project]
+name = "mobts"
+version = "0.1.0"
+description = "Mobility time series package for preprocessing, imputing, and analyzing mobility count observation data"
+authors = [
+    { name = "Ali SHATERI BENAM" }
+]
+dependencies = [
+    "pandas",
+    "numpy",
+    "statsmodels",
+    "scikit-learn"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
