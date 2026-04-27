@@ -1,5 +1,6 @@
 [project]
 name = "mobts"
+<<<<<<< HEAD
 version = "0.1.0"
 description = "Mobility time series package for preprocessing, imputing, and analyzing mobility count observation data"
 authors = [
@@ -15,3 +16,103 @@ dependencies = [
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+=======
+version = '0.1.0'
+authors = [
+]
+maintainers = [
+]
+description = "Adaptation of the template for github."
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    # ajouter les dépendances necessaires
+    "pytest == 8.0.1",  # exemple qui peut être supprimé
+]
+
+license = { file = "LICENSE" }
+
+[project.urls]
+Documentation = "https://mobidec.github.io/mobts/index.html"
+Repository = "https://github.com/Mobidec/mobts.git"
+Issues = "https://github.com/Mobidec/mobts/issues"
+Changelog = "https://github.com/Mobidec/mobts/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+extras = [  # dépendances optionnelles de base
+]
+dev = [
+    "pytest >= 9.0.2",  # version == 8.0.1 dans le template d'origine
+    "pytest-cov >= 7.1.0",
+    "pre-commit >= 4.5.1",
+    "build >= 1.4.0",
+    "twine >= 6.2.0",
+    "ruff >= 0.15.7",
+    "sphinx >= 9.1.0",
+    "sphinx_design >= 0.7.0",
+    # "myst-parser >= 5.0.0",  # included with myst_nb
+    "furo >= 2025.12.19",
+    "sphinx_autopackagesummary >= 1.3",
+    "sphinxcontrib-napoleon >= 0.7",
+    "sphinx-rtd-theme >= 3.1.0",
+    "numpydoc >= 1.10.0",
+    "myst_nb >= 1.4.0",  # décommenter pour inclure des Jupyter Notebook dans sphinx (commenter la ligne myst-parser)
+]
+
+[tool.setuptools.package-data]
+# fichiers de ressources qui ne sont pas du code Python à inclure dans le package:
+"mobts" = [
+	# "ressources/*.*",  # dans cet exemple, le dossier ressources/ se situe dans le dossier src/mobts/ et on ajoute tous les fichiers de ce dossier (sans récursion)
+	# "ressources/**/*.*",  # dans cet exemple, le dossier ressources/ se situe dans le dossier src/mobts/ et on ajoute tous les fichiers des sous-dossiers (sauf ceux à la racine)
+]
+
+[tool.mobts]
+version = "1.0.2"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"
+local_scheme = "dirty-tag"
+
+[tool.setuptools]
+py-modules = []
+license-files = []
+
+[tool.ruff]
+# Set the maximum line length to 140.
+line-length = 140
+# list files/directories to exclude from ruff
+exclude = [
+]
+
+[tool.ruff.lint]
+# See documentation: https://docs.astral.sh/ruff/rules/
+extend-select = [
+  "UP",
+  "E501",
+  "I",
+  "B",
+  "F",
+  "E",
+  "N",
+  "A",
+  "PL",
+  "D"
+]
+
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
+>>>>>>> 49fe879f9b3007998c5399531249b101fabb2887
