@@ -154,44 +154,44 @@ def apply_threshold(
     return out[[cols.counter, cols.timestamp, cols.count, "out_score"]].copy(), n_measurement_errors, n_counters_with_measurement_errors, thr
 
 
-def plot_outliers(
-    df_scored: pd.DataFrame,
-    data_is_hourly: bool = True,
-    change_to_daily: bool = False,
-    threshold: float = None,
-    counters: Optional[Iterable[str]] = None,
-    max_counters: int = None,
-    cfg: PipelineConfig = PipelineConfig(),
-):
+# def plot_outliers(
+#     df_scored: pd.DataFrame,
+#     data_is_hourly: bool = True,
+#     change_to_daily: bool = False,
+#     threshold: float = None,
+#     counters: Optional[Iterable[str]] = None,
+#     max_counters: int = None,
+#     cfg: PipelineConfig = PipelineConfig(),
+# ):
 
-    """
-    Plotting the outliers flagged for the counters
+#     """
+#     Plotting the outliers flagged for the counters
 
-    ------
-    Parameters:
+#     ------
+#     Parameters:
     
-    - df_scored: dataframe with outlier scores
-    - data_is_hourly: indicator of if data is hourly or not (daily otherwise)
-    - change_to_daily: indicator of if we are aggregating hourly to daily data
-    - threshold: outlier threshold set by user (defaults still set in config)
-    - counters: optional list of counters to be visualized
-    - max_counters: maximum number of counters to be plotted, also optional
-    - cfg: pipeline config containing all configs
+#     - df_scored: dataframe with outlier scores
+#     - data_is_hourly: indicator of if data is hourly or not (daily otherwise)
+#     - change_to_daily: indicator of if we are aggregating hourly to daily data
+#     - threshold: outlier threshold set by user (defaults still set in config)
+#     - counters: optional list of counters to be visualized
+#     - max_counters: maximum number of counters to be plotted, also optional
+#     - cfg: pipeline config containing all configs
 
-    -----
-    Returns:
+#     -----
+#     Returns:
 
-    - Figure visualizing time-series of counts for each counter, highlighting the outliers set by the given threshold
-    """
+#     - Figure visualizing time-series of counts for each counter, highlighting the outliers set by the given threshold
+#     """
 
-    if data_is_hourly and not change_to_daily:
-        _plot__outliers_hourly(df_scored, cfg.cols, cfg.outliers, cfg.plot, threshold, counters, max_counters)
+#     if data_is_hourly and not change_to_daily:
+#         _plot__outliers_hourly(df_scored, cfg.cols, cfg.outliers, cfg.plot, threshold, counters, max_counters)
 
-    elif (data_is_hourly and change_to_daily) or not data_is_hourly:
-        _plot_outliers_daily(df_scored, cfg.cols, cfg.outliers, cfg.plot, threshold, counters, max_counters)
+#     elif (data_is_hourly and change_to_daily) or not data_is_hourly:
+#         _plot_outliers_daily(df_scored, cfg.cols, cfg.outliers, cfg.plot, threshold, counters, max_counters)
 
-    else:
-        raise ValueError("No valid temporal frequency. Try 'h' or 'D'.")
+#     else:
+#         raise ValueError("No valid temporal frequency. Try 'h' or 'D'.")
 
 
 class preprocess:
@@ -230,6 +230,7 @@ class preprocess:
         
         self.cfg = cfg
         self.report_info = None
+        self.output_plot = None
 
     def run(
         self,
@@ -274,6 +275,14 @@ class preprocess:
                 "data_is_hourly": data_is_hourly,
                 "change_to_daily": change_to_daily,
                 "threshold": threshold,
+            }
+
+            # save for plot
+            self.output_plot = {
+                "df_scored": df_scored,
+                "data_is_hourly": data_is_hourly,
+                "change_to_daily": change_to_daily,
+                "threshold": threshold
             }
 
             return out
@@ -340,7 +349,54 @@ class preprocess:
             with open(filepath, "w", encoding="utf-8") as f:
                 f.write(text)
 
-        # return info
+    def plot_outliers(
+        self,
+        # data_is_hourly: bool = True,
+        # change_to_daily: bool = False,
+        threshold: float = None,
+        counters: Optional[Iterable[str]] = None,
+        max_counters: int = None,
+        # cfg: PipelineConfig = PipelineConfig(),
+    ):
+    
+        """
+        Plotting the outliers flagged for the counters
+    
+        ------
+        Parameters:
+        
+        - df_scored: dataframe with outlier scores
+        - data_is_hourly: indicator of if data is hourly or not (daily otherwise)
+        - change_to_daily: indicator of if we are aggregating hourly to daily data
+        - threshold: outlier threshold set by user (defaults still set in config)
+        - counters: optional list of counters to be visualized
+        - max_counters: maximum number of counters to be plotted, also optional
+        - cfg: pipeline config containing all configs
+    
+        -----
+        Returns:
+    
+        - Figure visualizing time-series of counts for each counter, highlighting the outliers set by the given threshold
+        """
+
+        if self.report_info is None:
+            raise ValueError("No report information found. Run the pipeline first using the '.run' function.")
+                    
+        df_scored = self.output_plot["df_scored"]
+        data_is_hourly = self.output_plot["data_is_hourly"]
+        change_to_daily = self.output_plot["change_to_daily"]
+        if threshold is None:
+            threshold = self.output_plot["threshold"]
+
+    
+        if data_is_hourly and not change_to_daily:
+            _plot_outliers_hourly(df_scored=df_scored, threshold=threshold, counters=counters, max_counters=max_counters, cols=self.cfg.cols, out_cfg=self.cfg.outliers, plot_cfg=self.cfg.plot)
+    
+        elif (data_is_hourly and change_to_daily) or not data_is_hourly:
+            _plot_outliers_daily(df_scored=df_scored, threshold=threshold, counters=counters, max_counters=max_counters, cols=self.cfg.cols, out_cfg=self.cfg.outliers, plot_cfg=self.cfg.plot)
+    
+        else:
+            raise ValueError("No valid temporal frequency. Try 'h' or 'D'.")
 
             
     

@@ -181,7 +181,7 @@ class impute:
             }
                 
             
-            return out, out_reg, out_sm
+            return out
 
         finally:
             if self.suppress_runtime_warnings:
