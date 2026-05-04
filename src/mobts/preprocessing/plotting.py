@@ -21,7 +21,7 @@ from ..configs.config_preprocessing import OutlierConfig, PlotConfig
 
 
 def _plot_outliers_daily(
-    df_scored: pd.Dataframe,
+    df_scored: pd.DataFrame,
     threshold: float,
     counters: Optional[Iterable[str]] = None,
     max_counters: float = None,
@@ -101,7 +101,7 @@ def _plot_outliers_daily(
 
 
 def _plot_outliers_hourly(
-    df_scored: pd.Dataframe,
+    df_scored: pd.DataFrame,
     threshold: float,
     counters: Optional[Iterable[str]] = None,
     max_counters: float = None,

@@ -124,7 +124,7 @@ def _drop_sparse_counters(
 
 
 def _format_datetime(
-    df: pd.Dataframe,
+    df: pd.DataFrame,
     cols: ColumnsConfig = ColumnsConfig(),
 ) -> pd.DataFrame:
 
@@ -157,10 +157,10 @@ def _format_datetime(
 
 
 def _add_temporal_columns(
-    df: pd.Dataframe,
+    df: pd.DataFrame,
     freq: str,
     cols: ColumnsConfig = ColumnsConfig(),
-) -> pd.Dataframe:
+) -> pd.DataFrame:
 
     """
     Adding further temporal columns

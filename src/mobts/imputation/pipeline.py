@@ -133,10 +133,10 @@ class impute:
             sm = out_sm[self.out_cfg.col_sm_imputed] if freq == "daily" else None
             stl = out_stl[self.out_cfg.col_stl_imputed]
 
-            # retrieves the pre-imputed dataframe
+            # retrieves the pre-imputed DataFrame
             out = out_preprocessed.copy()
 
-            # adds each imputation column to the original dataframe
+            # adds each imputation column to the original DataFrame
             out[self.out_cfg.col_stl_imputed] = stl
             out[self.out_cfg.col_sm_imputed] = sm if freq == "daily" else None
             out[self.out_cfg.col_reg_imputed] = reg

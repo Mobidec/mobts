@@ -18,10 +18,10 @@ from ..configs.config_preprocessing import STLConfig
 
 
 def _calculate_outlier_score_counter_daily(
-    df_counter_daily: pd.Dataframe,
+    df_counter_daily: pd.DataFrame,
     cols: ColumnsConfig = ColumnsConfig(),
     cfg: STLConfig = STLConfig(),
-) -> pd.Dataframe:
+) -> pd.DataFrame:
 
     """
     Calculating outlier score for daily data
@@ -36,7 +36,7 @@ def _calculate_outlier_score_counter_daily(
     -----
     Returns:
 
-    - dataframe of single counter with aggregate daily observations, and corresponding outlier scores
+    - DataFrame of single counter with aggregate daily observations, and corresponding outlier scores
 
     -----
     Notes:
@@ -89,9 +89,9 @@ def _calculate_outlier_score_counter_daily(
 
 
 def _calculate_outlier_score_counter_hourly(
-    df_couter_hourly: pd.Dataframe,
+    df_couter_hourly: pd.DataFrame,
     cols: ColumnsConfig = ColumnsConfig(),
-) -> pd.Dataframe:
+) -> pd.DataFrame:
 
     """
     Calculating outlier score for hourly data
@@ -105,7 +105,7 @@ def _calculate_outlier_score_counter_hourly(
     -----
     Returns:
 
-    - dataframe of single counter with aggregate hourly observations, and corresponding outlier scores
+    - DataFrame of single counter with aggregate hourly observations, and corresponding outlier scores
 
     -----
     Notes:
@@ -156,12 +156,12 @@ def _calculate_outlier_score_counter_hourly(
 
 
 def _calculate_outlier_score(
-    df: pd.Dataframe,
+    df: pd.DataFrame,
     data_is_hourly: bool = True,
     change_to_daily: bool = False,
     cols: ColumnsConfig = ColumnsConfig(),
     stl_cfg: STLConfig = STLConfig(),
-) -> pd.Dataframe:
+) -> pd.DataFrame:
     
     """
     Calculating outlier score for each observation based on temporal frequency
@@ -178,7 +178,7 @@ def _calculate_outlier_score(
     -----
     Returns:
 
-    - Dataframe of all observations with their corresponding outlier score
+    - DataFrame of all observations with their corresponding outlier score
 
     -----
     Notes:

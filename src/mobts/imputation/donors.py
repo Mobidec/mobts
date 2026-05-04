@@ -66,7 +66,7 @@ def _build_pivots(
     ------
     Parameters:
     
-    - df: full network dataframe
+    - df: full network DataFrame
     - cols: columns config
     - stl_cfg: STL config
 
@@ -143,7 +143,7 @@ def impute_scaled_median(
     -----
     Returns:
 
-    - Imputed dataframe using scaled medians method (M7)
+    - Imputed DataFrame using scaled medians method (M7)
 
     -----
     Notes:
@@ -273,7 +273,7 @@ def impute_regression(
     -----
     Returns:
 
-    - Imputed dataframe using regression method (M8)
+    - Imputed DataFrame using regression method (M8)
 
     -----
     Notes:

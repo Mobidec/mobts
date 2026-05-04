@@ -37,7 +37,7 @@ def _aggregate_hourly_to_daily(
     -----
     Returns:
 
-    - dataframe with daily frequency
+    - DataFrame with daily frequency
     """
 
     daily = df.groupby(cols.counter).resample('D', on=cols.timestamp, include_groups=False)[cols.count].sum().reset_index()
@@ -65,7 +65,7 @@ def _remove_measurement_errors_hourly(
     -----
     Returns:
 
-    - Single counter dataframe where hourly counts suspcious of being made with measurement errors are set to NaN
+    - Single counter DataFrame where hourly counts suspcious of being made with measurement errors are set to NaN
 
     -----
     Notes:
@@ -142,10 +142,10 @@ def _remove_measurement_errors_hourly(
 
 
 def _remove_measurement_errors_daily(
-    df_counter: pd.Dataframe,
+    df_counter: pd.DataFrame,
     cols: ColumnsConfig = ColumnsConfig(),
     cfg:PreprocessConfig = PreprocessConfig(),
-) -> pd.Dataframe:
+) -> pd.DataFrame:
                                     
     """
     Remove measurement errors for data with daily frequency per counter
@@ -160,7 +160,7 @@ def _remove_measurement_errors_daily(
     -----
     Returns:
 
-    - Single counter dataframe where daily counts suspcious of being made with measurement errors are set to NaN
+    - Single counter DataFrame where daily counts suspcious of being made with measurement errors are set to NaN
 
     -----
     Notes:
@@ -197,12 +197,12 @@ def _remove_measurement_errors_daily(
 
 
 def _remove_measurement_errors_wrapper_counter(
-    df_counter: pd.Dataframe,
+    df_counter: pd.DataFrame,
     data_is_hourly: bool,
     change_to_daily: bool,
     cols: ColumnsConfig = ColumnsConfig(),
     cfg: PreprocessConfig = PreprocessConfig(),
-) -> pd.Dataframe:
+) -> pd.DataFrame:
 
     """
     Wrapper for choosing the measurement error remover by frequency for a single counter
@@ -219,7 +219,7 @@ def _remove_measurement_errors_wrapper_counter(
     -----
     Returns:
 
-    - Single counter dataframe where counts suspcious of being made with measurement errors are set to NaN
+    - Single counter DataFrame where counts suspcious of being made with measurement errors are set to NaN
     """
 
     # first the frequency should be identified
@@ -264,12 +264,12 @@ def _remove_measurement_errors_wrapper_counter(
 
 
 def _remove_measurement_errors_all_network(
-    df_network: pd.Dataframe,
+    df_network: pd.DataFrame,
     data_is_hourly: bool = True,
     change_to_daily: bool = False,
     cols: ColumnsConfig = ColumnsConfig(),
     cfg: PreprocessConfig = PreprocessConfig(),
-) -> pd.Dataframe:
+) -> pd.DataFrame:
 
     """
     Applying the cleaning function on the entire network
@@ -277,7 +277,7 @@ def _remove_measurement_errors_all_network(
     ------
     Parameters:
     
-    - df_network: the dataframe containing all counters
+    - df_network: the DataFrame containing all counters
     - data_is_hourly: indicator of if data is hourly or not (daily otherwise)
     - change_to_daily: indicator of if we are aggregating hourly to daily data
     - cols: column config
@@ -286,7 +286,7 @@ def _remove_measurement_errors_all_network(
     -----
     Returns:
 
-    - Single counter dataframe where counts suspcious of being made with measurement errors are set to NaN
+    - Single counter DataFrame where counts suspcious of being made with measurement errors are set to NaN
     - number of observations that have been changed to NaN by the function
     - number of counters that have been affected by the cleaning function
     """

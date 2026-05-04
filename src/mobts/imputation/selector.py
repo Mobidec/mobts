@@ -35,7 +35,7 @@ def _find_counters_with_holes(
     ------
     Parameters:
     
-    - df: preprocessed network dataframe
+    - df: preprocessed network DataFrame
     - count_col: count column
     - counter_col: counter column
 

@@ -174,7 +174,7 @@ def _initial_interpolate_for_stl(
     -----
     Returns:
 
-    - dataframe with interpolated time-series
+    - DataFrame with interpolated time-series
 
     -----
     Notes:
@@ -203,7 +203,7 @@ def _stl_on_counter_hole_adjusted(
     ------
     Parameters:
     
-    - g: dataframe for a single counter
+    - g: DataFrame for a single counter
     - freq: temporal frequency of the project
     - cols: columns config
     - stl_cfg: config for STL    
@@ -212,7 +212,7 @@ def _stl_on_counter_hole_adjusted(
     -----
     Returns:
 
-    - dataframe with imputed missing values for one counter, using STL
+    - DataFrame with imputed missing values for one counter, using STL
 
     -----
     Notes:
@@ -230,7 +230,7 @@ def _stl_on_counter_hole_adjusted(
     period_stl = _get_stl_period(freq, stl_cfg)
     grouping_col = _get_grouping_column_for_stl(freq)
 
-    # applies STL, and stores them on the counter dataframe
+    # applies STL, and stores them on the counter DataFrame
     res = STL(y, period=period_stl, robust=stl_cfg.stl_robust).fit()
     
     g["stl_trend"] = res.trend
@@ -280,7 +280,7 @@ def impute_stl(
     -----
     Returns:
 
-    - dataframe with imputed missing values, using STL
+    - DataFrame with imputed missing values, using STL
     """
     
     freq = _determine_temporal_frequency(df, cols=cols)

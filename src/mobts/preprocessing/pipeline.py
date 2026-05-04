@@ -116,7 +116,7 @@ def apply_threshold(
     ------
     Parameters:
     
-    - df_scored: dataframe with outlier scores
+    - df_scored: DataFrame with outlier scores
     - data_is_hourly: indicator of if data is hourly or not (daily otherwise)
     - change_to_daily: indicator of if we are aggregating hourly to daily data
     - cfg: pipeline config containing all configs
@@ -326,7 +326,7 @@ class preprocess:
         ------
         Parameters:
         
-        - df_scored: dataframe with outlier scores
+        - df_scored: DataFrame with outlier scores
         - data_is_hourly: indicator of if data is hourly or not (daily otherwise)
         - change_to_daily: indicator of if we are aggregating hourly to daily data
         - threshold: outlier threshold set by user (defaults still set in config)
