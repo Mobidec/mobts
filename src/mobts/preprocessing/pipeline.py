@@ -10,11 +10,11 @@ This module contains:
     + remove counters with sparse observations
     + calculate outlier scores for each observation
 - the function for applying user's thresold, flagging outliers, and replacing them with NaN
-- the plot function for visualizing detected outliers based on given threshold
 
 - the 'preprocess' class containing a .run function that contains:
     + running the stage 1 procedure explained above
     + flagging and replacing outliers with NaN using given threshold
+    + the plot function for visualizing detected outliers based on given threshold
 
 It is worth noting that the main class is supposed to be called, however, a warning is given to user that
 the default thresholds are set based on the study case data, and might not be suitable for other datasets.
@@ -153,45 +153,6 @@ def apply_threshold(
 
     return out[[cols.counter, cols.timestamp, cols.count, "out_score"]].copy(), n_measurement_errors, n_counters_with_measurement_errors, thr
 
-
-# def plot_outliers(
-#     df_scored: pd.DataFrame,
-#     data_is_hourly: bool = True,
-#     change_to_daily: bool = False,
-#     threshold: float = None,
-#     counters: Optional[Iterable[str]] = None,
-#     max_counters: int = None,
-#     cfg: PipelineConfig = PipelineConfig(),
-# ):
-
-#     """
-#     Plotting the outliers flagged for the counters
-
-#     ------
-#     Parameters:
-    
-#     - df_scored: dataframe with outlier scores
-#     - data_is_hourly: indicator of if data is hourly or not (daily otherwise)
-#     - change_to_daily: indicator of if we are aggregating hourly to daily data
-#     - threshold: outlier threshold set by user (defaults still set in config)
-#     - counters: optional list of counters to be visualized
-#     - max_counters: maximum number of counters to be plotted, also optional
-#     - cfg: pipeline config containing all configs
-
-#     -----
-#     Returns:
-
-#     - Figure visualizing time-series of counts for each counter, highlighting the outliers set by the given threshold
-#     """
-
-#     if data_is_hourly and not change_to_daily:
-#         _plot__outliers_hourly(df_scored, cfg.cols, cfg.outliers, cfg.plot, threshold, counters, max_counters)
-
-#     elif (data_is_hourly and change_to_daily) or not data_is_hourly:
-#         _plot_outliers_daily(df_scored, cfg.cols, cfg.outliers, cfg.plot, threshold, counters, max_counters)
-
-#     else:
-#         raise ValueError("No valid temporal frequency. Try 'h' or 'D'.")
 
 
 class preprocess:
