@@ -10,6 +10,7 @@ This module contains:
 """
 
 import pandas as pd
+from typing import Iterable, Optional
 from ..configs.config_common import ColumnsConfig, SparsityConfig
 
 

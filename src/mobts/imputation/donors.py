@@ -12,6 +12,7 @@ This module contains:
 
 import numpy as np
 import pandas as pd
+from typing import Iterable, Optional
 from sklearn.linear_model import LinearRegression
 
 from ..configs.config_common import ColumnsConfig

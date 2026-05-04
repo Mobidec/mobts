@@ -11,6 +11,7 @@ This module contains the 'impute' class. It's 'run' function includes:
 import warnings
 import numpy as np
 import pandas as pd
+from typing import Iterable, Optional
 import timeit
 
 from ..configs.config_common import ColumnsConfig, SparsityConfig

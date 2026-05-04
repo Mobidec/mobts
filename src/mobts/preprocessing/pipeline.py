@@ -25,6 +25,7 @@ after, using the 'apply_threshold' function.
 
 import pandas as pd
 import numpy as np
+from typing import Iterable, Optional
 import warnings
 
 from ..configs.config_preprocessing import PipelineConfig
