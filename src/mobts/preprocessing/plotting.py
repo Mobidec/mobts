@@ -6,8 +6,6 @@ This module contains:
 - the plot function for hourly data
 """
 
-
-
 import math
 import random
 from typing import Iterable, Optional
@@ -19,7 +17,6 @@ from ..configs.config_common import ColumnsConfig
 from ..configs.config_preprocessing import OutlierConfig, PlotConfig
 
 
-
 def _plot_outliers_daily(
     df_scored: pd.DataFrame,
     threshold: float,
@@ -29,13 +26,12 @@ def _plot_outliers_daily(
     out_cfg: OutlierConfig = OutlierConfig(),
     plot_cfg: PlotConfig = PlotConfig(),
 ):
-
     """
     Plotting outliers for daily data
 
     ------
     Parameters:
-    
+
     - df_scored: daily dataset with outlier score
     - threshold: outlier threshold set by user (has a default of 20)
     - counters: optional list of counters to be visualized
@@ -74,30 +70,25 @@ def _plot_outliers_daily(
 
     fig_height = max(plot_cfg.min_fig_height, plot_cfg.height_per_row * nrows)
     fig = plt.figure(figsize=(plot_cfg.figsize_width, fig_height))
-    
 
-    
-    i=1
+    i = 1
     for st in counters_list:
-
         ax = fig.add_subplot(nrows, ncols, i)
         df_plot = df_scored[df_scored[cols.counter] == st]
         x = df_plot.index
-    
-        ax.plot(x, df_plot["count_filled"], linewidth = plot_cfg.linewidth_d)
-    
-        mask = df_plot["out_score"] > thr
-        ax.scatter(x[mask], df_plot.loc[mask, "count_filled"], color='r')
-    
-        ax.set_title(str(st))
-        ax.tick_params(axis = "x", labelrotation = 30)
-        i = i+1
 
+        ax.plot(x, df_plot['count_filled'], linewidth=plot_cfg.linewidth_d)
+
+        mask = df_plot['out_score'] > thr
+        ax.scatter(x[mask], df_plot.loc[mask, 'count_filled'], color='r')
+
+        ax.set_title(str(st))
+        ax.tick_params(axis='x', labelrotation=30)
+        i = i + 1
 
     fig.tight_layout()
-        
-    return fig
 
+    return fig
 
 
 def _plot_outliers_hourly(
@@ -109,13 +100,12 @@ def _plot_outliers_hourly(
     out_cfg: OutlierConfig = OutlierConfig(),
     plot_cfg: PlotConfig = PlotConfig(),
 ):
-    
     """
     Plotting outliers for hourly data
 
     ------
     Parameters:
-    
+
     - df_scored: daily dataset with outlier score
     - threshold: outlier threshold set by user (has a default of 20)
     - counters: optional list of counters to be visualized
@@ -155,43 +145,40 @@ def _plot_outliers_hourly(
 
     # plotting the figure
     # number of cols, height per row, figsize width, likewidth and etc can be modified through the config
-    i=1
+    i = 1
     for st in counters_list:
-
         ax = fig.add_subplot(nrows, ncols, i)
         df_plot = df_scored[df_scored[cols.counter] == st]
 
         # zoom to the 1-month period with the most flagged anomalies
-        mask_full = df_plot["out_score"] > thr
+        mask_full = df_plot['out_score'] > thr
 
         if mask_full.any():
-            month_key = df_plot.index.tz_localize(None).to_period("M")
+            month_key = df_plot.index.tz_localize(None).to_period('M')
             flagged_per_month = mask_full.astype(int).groupby(month_key).sum()
             best_month = flagged_per_month.idxmax()
 
             month_mask = month_key == best_month
             df_plot = df_plot.loc[month_mask]
-            
-        x = df_plot.index
-    
-        ax.plot(x, df_plot[cols.count], linewidth = plot_cfg.linewidth_h)
-    
-        mask = df_plot["out_score"] > thr        
-        ax.scatter(x[mask], df_plot.loc[mask, cols.count], color='r')
-    
-        ax.set_title(str(st))
-        ax.tick_params(axis = "x", labelrotation = 30)
 
-        ax.grid(alpha=0.3, linestyle="--")
+        x = df_plot.index
+
+        ax.plot(x, df_plot[cols.count], linewidth=plot_cfg.linewidth_h)
+
+        mask = df_plot['out_score'] > thr
+        ax.scatter(x[mask], df_plot.loc[mask, cols.count], color='r')
+
+        ax.set_title(str(st))
+        ax.tick_params(axis='x', labelrotation=30)
+
+        ax.grid(alpha=0.3, linestyle='--')
 
         ax.margins(x=0)
-        
-        i = i+1
 
+        i = i + 1
 
     fig.tight_layout()
     return fig
-
 
 
 # def plot_outliers(
@@ -215,9 +202,3 @@ def _plot_outliers_hourly(
 
 #     else:
 #         raise ValueError(f"'{pr_gran}' is not a valid granularity. Try 'h' or 'D'.")
-        
-
-    
-
-    
-    
