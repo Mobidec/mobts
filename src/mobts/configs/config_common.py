@@ -8,7 +8,7 @@ class ColumnsConfig:
     Canonical column names used in the pipeline after standardization.
     """
 
-    counter: str = 'name'
+    counter: str = 'counter'
     timestamp: str = 'timestamp'
     count: str = 'count'
 

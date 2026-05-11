@@ -18,7 +18,6 @@ Designed for transport datasets such as bike counts, traffic loops, and station-
 
 ## Installation
 
-```bash
 pip install mobts
 
 ---
