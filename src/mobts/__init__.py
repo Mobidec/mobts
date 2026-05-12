@@ -5,4 +5,4 @@ from .imputation import impute
 
 from importlib.metadata import version
 
-__version__ = version("mobts")
+__version__ = version('mobts')
