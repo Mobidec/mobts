@@ -199,8 +199,6 @@ class preprocess:
             if metadata_cols:
                 meta = df_raw[[counter_col] + metadata_cols].drop_duplicates(subset=[counter_col])
 
-                df_raw = df_raw[[counter_col, timestamp_col, count_col]].copy()
-
             df_scored, n_missing_names, n_obs_changed_to_nan, n_counters_affected, n_sparse_counters = run_preprocess_stage_1(
                 df_raw=df_raw,
                 counter_col=counter_col,
@@ -218,10 +216,6 @@ class preprocess:
                 cfg=self.cfg,
                 threshold=threshold,
             )
-
-            # if metadata columns are provided, re-establish them
-            if metadata_cols:
-                out = out.merge(meta, on=counter_col, how='left')
 
             # save info for report
             self.report_info = {
@@ -245,6 +239,13 @@ class preprocess:
                 'change_to_daily': change_to_daily,
                 'threshold': threshold,
             }
+
+            # change column names back to original
+            out = out.rename(columns={self.cfg.cols.counter: counter_col, self.cfg.cols.count: count_col, self.cfg.cols.timestamp: timestamp_col})
+
+            # if metadata columns are provided, re-establish them
+            if metadata_cols:
+                out = out.merge(meta, on=counter_col, how='left')
 
             return out
 

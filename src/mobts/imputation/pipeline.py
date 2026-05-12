@@ -16,13 +16,7 @@ import timeit
 
 from ..configs.config_common import ColumnsConfig, SparsityConfig
 from ..configs.config_imputation import STLConfig, DonorsConfig, OutputConfig
-from ..utils.formatting import (
-    _format_datetime,
-    _add_temporal_columns,
-    _determine_temporal_frequency,
-    _validate_frequency,
-    _drop_sparse_counters,
-)
+from ..utils.formatting import _standardize_input, _drop_nan_counters, _format_datetime, _add_temporal_columns, _determine_temporal_frequency, _validate_frequency, _drop_sparse_counters
 from .stl import impute_stl
 from .donors import _build_pivots, _corralation_matrix_donors, impute_scaled_median, impute_regression
 from .selector import _counter_method_choice, _find_counters_with_holes
@@ -67,7 +61,13 @@ class impute:
         self.report_info = None
 
     # warnings for nan medians are numerous, cleaned for a cleaner output
-    def run(self, df: pd.DataFrame) -> pd.DataFrame:
+    def run(self,
+            df: pd.DataFrame,
+            counter_col: str,
+            timestamp_col: str,
+            count_col: str,
+            metadata_cols: list | None = None,
+    ) -> pd.DataFrame:
 
         # to make the code cleaner
         c_col, t_col, v_col = self.cols.counter, self.cols.timestamp, self.cols.count
@@ -80,10 +80,19 @@ class impute:
             warnings.filterwarnings('ignore', message='DataFrameGroupBy.apply operated on the grouping columns', category=FutureWarning)
 
         try:
+            # gets a meta for additional columns
+            if metadata_cols:
+                meta = df[[counter_col] + metadata_cols].drop_duplicates(subset=[counter_col])
+                
             # first step, runs a mini-processing for preparing the dataset
-            df_non_sparse = _drop_sparse_counters(df=df, cols=self.cols, cfg_spr=self.cfg_spr)
+            df_std = _standardize_input(df, counter_col=counter_col, timestamp_col=timestamp_col, count_col=count_col, out_cols=self.cols)
 
-            n_sparse_counters = int(df[self.cols.counter].nunique()) - int(df_non_sparse[self.cols.counter].nunique())
+            df_std, n_missing_names = _drop_nan_counters(df_std)
+
+            df_non_sparse = _drop_sparse_counters(df=df_std, cols=self.cols, cfg_spr=self.cfg_spr)
+
+            n_sparse_counters = int(df_std[self.cols.counter].nunique()) - int(df_non_sparse[self.cols.counter].nunique())
+            
             n_holes = int(df_non_sparse[self.cols.count].isna().sum())
 
             df_non_sparse = _format_datetime(df_non_sparse, cols=self.cols)
@@ -190,6 +199,7 @@ class impute:
                 'n_entries': len(df),
                 'n_counters': int(out[self.cols.counter].nunique()) + n_sparse_counters,
                 'freq': freq,
+                'n_missing_names': n_missing_names,
                 'n_sparse_counters': n_sparse_counters,
                 'n_holes': n_holes,
                 'n_counter_holes': len(counters_holes),
@@ -198,6 +208,13 @@ class impute:
                 'n_stl': int((out[self.out_cfg.col_method_used] == 'STL').sum()),
             }
 
+            # change column names back to original
+            out = out.rename(columns={self.cols.counter: counter_col, self.cols.count: count_col, self.cols.timestamp: timestamp_col})
+
+            # if metadata columns are provided, re-establish them
+            if metadata_cols:
+                out = out.merge(meta, on=counter_col, how='left')
+                
             return out
 
         finally:
@@ -236,6 +253,7 @@ class impute:
             f'Aggregate number of entries: {info["n_entries"]}',
             f'Number of counters observed: {info["n_counters"]}',
             f'The temporal granularity of the project is: {info["freq"]}',
+            f'Number of entries with missing counter names: {info["n_missing_names"]}',
             f'Number of counters removed due to low number of entries: {info["n_sparse_counters"]}',
             f'Number of holes in data: {info["n_holes"]}',
             f'Number of ounters with missing information: {info["n_counter_holes"]}',

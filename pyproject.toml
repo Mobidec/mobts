@@ -1,6 +1,6 @@
 [project]
 name = "mobts"
-version = "0.1.2"
+version = "0.1.4"
 description = "Mobility time series package for preprocessing, imputing, and analyzing mobility count observation data"
 readme = "README.md"
 requires-python = ">=3.10"
