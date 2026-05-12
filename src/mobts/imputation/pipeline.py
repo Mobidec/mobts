@@ -16,7 +16,15 @@ import timeit
 
 from ..configs.config_common import ColumnsConfig, SparsityConfig
 from ..configs.config_imputation import STLConfig, DonorsConfig, OutputConfig
-from ..utils.formatting import _standardize_input, _drop_nan_counters, _format_datetime, _add_temporal_columns, _determine_temporal_frequency, _validate_frequency, _drop_sparse_counters
+from ..utils.formatting import (
+    _standardize_input,
+    _drop_nan_counters,
+    _format_datetime,
+    _add_temporal_columns,
+    _determine_temporal_frequency,
+    _validate_frequency,
+    _drop_sparse_counters,
+)
 from .stl import impute_stl
 from .donors import _build_pivots, _corralation_matrix_donors, impute_scaled_median, impute_regression
 from .selector import _counter_method_choice, _find_counters_with_holes
@@ -61,12 +69,13 @@ class impute:
         self.report_info = None
 
     # warnings for nan medians are numerous, cleaned for a cleaner output
-    def run(self,
-            df: pd.DataFrame,
-            counter_col: str,
-            timestamp_col: str,
-            count_col: str,
-            metadata_cols: list | None = None,
+    def run(
+        self,
+        df: pd.DataFrame,
+        counter_col: str,
+        timestamp_col: str,
+        count_col: str,
+        metadata_cols: list | None = None,
     ) -> pd.DataFrame:
 
         # to make the code cleaner
@@ -83,7 +92,7 @@ class impute:
             # gets a meta for additional columns
             if metadata_cols:
                 meta = df[[counter_col] + metadata_cols].drop_duplicates(subset=[counter_col])
-                
+
             # first step, runs a mini-processing for preparing the dataset
             df_std = _standardize_input(df, counter_col=counter_col, timestamp_col=timestamp_col, count_col=count_col, out_cols=self.cols)
 
@@ -92,7 +101,7 @@ class impute:
             df_non_sparse = _drop_sparse_counters(df=df_std, cols=self.cols, cfg_spr=self.cfg_spr)
 
             n_sparse_counters = int(df_std[self.cols.counter].nunique()) - int(df_non_sparse[self.cols.counter].nunique())
-            
+
             n_holes = int(df_non_sparse[self.cols.count].isna().sum())
 
             df_non_sparse = _format_datetime(df_non_sparse, cols=self.cols)
@@ -214,7 +223,7 @@ class impute:
             # if metadata columns are provided, re-establish them
             if metadata_cols:
                 out = out.merge(meta, on=counter_col, how='left')
-                
+
             return out
 
         finally:

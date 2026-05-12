@@ -241,7 +241,9 @@ class preprocess:
             }
 
             # change column names back to original
-            out = out.rename(columns={self.cfg.cols.counter: counter_col, self.cfg.cols.count: count_col, self.cfg.cols.timestamp: timestamp_col})
+            out = out.rename(
+                columns={self.cfg.cols.counter: counter_col, self.cfg.cols.count: count_col, self.cfg.cols.timestamp: timestamp_col}
+            )
 
             # if metadata columns are provided, re-establish them
             if metadata_cols:
