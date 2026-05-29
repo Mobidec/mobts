@@ -91,7 +91,7 @@ class impute:
         try:
             # gets a meta for additional columns
             if metadata_cols:
-                meta = df[[counter_colm, timestamp_col] + metadata_cols].drop_duplicates(subset=[counter_col])
+                meta = df[[counter_col, timestamp_col] + metadata_cols].drop_duplicates(subset=[counter_col])
 
             # first step, runs a mini-processing for preparing the dataset
             df_std = _standardize_input(df, counter_col=counter_col, timestamp_col=timestamp_col, count_col=count_col, out_cols=self.cols)
