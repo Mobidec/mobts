@@ -17,24 +17,28 @@ Designed for transport datasets such as bike counts, traffic loops, and station-
 ---
 
 ## Installation
-
+```bash
 pip install mobts
-
+```
 ---
 
 ## Example of running the code
-
+```bash
 from mobts import preprocess
 from mobts import impute
+```
 
 # Step 1: clean raw data
+```bash
 pp = preprocess()
 df_clean = pp.run(df)
+```
 
 # Step 2: impute missing values
+```bash
 imp = impute()
 df_imputed = imp.run(df_clean)
-
+```
 ---
 
 ### Functional examples
