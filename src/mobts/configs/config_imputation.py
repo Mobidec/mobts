@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from typing import Optional
 
-test = "updated_3"
+test = 'updated_3'
+
 
 @dataclass
 class STLConfig:
