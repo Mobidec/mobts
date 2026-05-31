@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
+test = "updated_3"
 
 @dataclass
 class STLConfig:
@@ -29,7 +30,7 @@ class DonorsConfig:
     Configs for Donor-based imputation
     """
 
-    top_k_donor = 25
+    top_k_donor = 21
     max_donor_rate = 0.5
 
     # scaled median
@@ -42,7 +43,7 @@ class DonorsConfig:
     min_mutual_hours = min_mutual_days * 24
     min_pred_days = 30
     min_pred_hours = min_pred_days * 24
-    min_pred_coverage = 0.9
+    min_pred_coverage = 1
 
 
 @dataclass
